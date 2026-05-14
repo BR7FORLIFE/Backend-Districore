@@ -1,0 +1,2170 @@
+{
+	"info": {
+		"_postman_id": "76db1774-b65c-45bd-94c7-4767eb952ee5",
+		"name": "Backend Proyecto Aula - API Tests Copy",
+		"description": "Colección completa para probar los endpoints del backend del proyecto universitario. Incluye autenticación, gestión de distribuidores, preventistas, entregadores y más.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42659813"
+	},
+	"item": [
+		{
+			"name": "01 - Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.token) {",
+									"        pm.collectionVariables.set('adminToken', jsonData.token);",
+									"        console.log('✅ Admin token guardado:', jsonData.token);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"jose\",\n  \"password\": \"12345\",\n  \"rememberMe\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Autentica al usuario admin y guarda el token JWT automáticamente"
+					},
+					"response": []
+				},
+				{
+					"name": "Login as User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.token) {",
+									"        pm.collectionVariables.set('adminToken', jsonData.token);",
+									"        console.log('✅ Admin token guardado:', jsonData.token);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"pepito\",\n  \"password\": \"pepito123\",\n  \"rememberMe\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Autentica al usuario admin y guarda el token JWT automáticamente"
+					},
+					"response": []
+				},
+				{
+					"name": "Login as Distributor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.token) {",
+									"        pm.collectionVariables.set('distributorToken', jsonData.token);",
+									"        console.log('✅ Distributor token guardado:', jsonData.token);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"clayton.will\",\n  \"password\": \"password123\",\n  \"rememberMe\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Autentica al distribuidor. IMPORTANTE: Actualiza el username y password con las credenciales que recibirás al crear el distribuidor en el paso siguiente."
+					},
+					"response": []
+				},
+				{
+					"name": "Test Authentication",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/auth/test",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"test"
+							]
+						},
+						"description": "Prueba que el token de autenticación funciona correctamente"
+					},
+					"response": []
+				},
+				{
+					"name": "isAuthenticate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/auth/authenticate",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/auth/me",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"maria\",\n    \"password\": \"12345\",\n    \"email\": \"maria@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "02 - Distributors (ADMIN Role)",
+			"item": [
+				{
+					"name": "Create Distributor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200 || pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.distributor && jsonData.distributor.id) {",
+									"        pm.collectionVariables.set('distributorId', jsonData.distributor.id);",
+									"        console.log('✅ Distributor ID guardado:', jsonData.distributor.id);",
+									"    }",
+									"    if (jsonData.user) {",
+									"        console.log('📝 IMPORTANTE - Guarda estas credenciales del distribuidor:');",
+									"        console.log('   Username:', jsonData.user.username);",
+									"        console.log('   Password:', jsonData.user.password);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"NIT\": \"900123456\",\n  \"name\": \"Distribuidora Central\",\n  \"phoneNumber\": \"3001234567\",\n  \"email\": \"contacto@distcentral.com\",\n  \"direction\": {\n    \"street\": \"Calle 50\",\n    \"number\": \"23-45\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Barranquilla\",\n    \"department\": \"Atlántico\"\n  },\n  \"userId\": \"1ca1071a-a7dc-4329-ba3b-6619e24e69cd\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/distributor",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"distributor"
+							]
+						},
+						"description": "Crea un nuevo distribuidor. IMPORTANTE: Guarda el username y password que devuelve para usar en 'Login as Distributor'"
+					},
+					"response": []
+				},
+				{
+					"name": "List All Distributors",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/distributor",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"distributor"
+							]
+						},
+						"description": "Lista todos los distribuidores registrados"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Distributor by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/distributor/{{distributorId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"distributor",
+								"{{distributorId}}"
+							]
+						},
+						"description": "Obtiene la información de un distribuidor específico"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Distributor",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Distribuidora Central Actualizada\",\n  \"phoneNumber\": \"3001239999\",\n  \"direction\": {\n    \"street\": \"Calle 51\",\n    \"number\": \"24-46\",\n    \"neighborhood\": \"Centro\",\n    \"city\": \"Barranquilla\",\n    \"department\": \"Atlántico\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/distributor/{{distributorId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"distributor",
+								"{{distributorId}}"
+							]
+						},
+						"description": "Actualiza la información de un distribuidor"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Distributor by NIT",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/distributor/nit/{{NIT}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"distributor",
+								"nit",
+								"{{NIT}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List All bindings (DISTRIBUTOR ROLE)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/distributor/bindings-request",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"distributor",
+								"bindings-request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Receive Binding Status (DISTRIBUTOR ROLE))",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"APPROVED\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/distributor/{{bindingId}}/status",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"distributor",
+								"{{bindingId}}",
+								"status"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Stores (DISTRIBUTOR ROLE)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/distributor/get-stores",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"distributor",
+								"get-stores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order By Id (DISTRIBUTOR ROLE)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/distributor/get-order/{{orderId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"distributor",
+								"get-order",
+								"{{orderId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Orders (DISTRIBUTOR ROLE)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/distributor/get-order",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"distributor",
+								"get-order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Store By Id (DISTRIBUTOR ROLE)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/distributor/get-store/{{storeId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"distributor",
+								"get-store",
+								"{{storeId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "03 - Presales (DISTRIBUTOR Role)",
+			"item": [
+				{
+					"name": "Create Presales",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200 || pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.presales && jsonData.presales.id) {",
+									"        pm.collectionVariables.set('presalesId', jsonData.presales.id);",
+									"        console.log('✅ Presales ID guardado:', jsonData.presales.id);",
+									"    }",
+									"    if (jsonData.user) {",
+									"        console.log('📝 Credenciales del preventista:');",
+									"        console.log('   Username:', jsonData.user.username);",
+									"        console.log('   Password:', jsonData.user.password);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{distributorToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"pepito\",\n  \"password\": \"pepito123\",\n  \"name\": \"Juan Pérez\",\n  \"email\": \"juan.perez@distcentral.com\",\n  \"phoneNumber\": \"3109876543\",\n  \"documentType\": \"CC\",\n  \"documentNumber\": \"1234567890\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/presales",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"presales"
+							]
+						},
+						"description": "Crea un nuevo preventista. Requiere token de distribuidor. Tipos de documento: CC, TI, CE, PASSPORT"
+					},
+					"response": []
+				},
+				{
+					"name": "List All Presales",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{distributorToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/presales",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"presales"
+							]
+						},
+						"description": "Lista todos los preventistas"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Presales by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{distributorToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/presales/{{presalesId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"presales",
+								"{{presalesId}}"
+							]
+						},
+						"description": "Obtiene la información de un preventista específico"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Presales",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{distributorToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Juan Pérez Actualizado\",\n  \"phoneNumber\": \"3109999999\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/presales/{{presalesId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"presales",
+								"{{presalesId}}"
+							]
+						},
+						"description": "Actualiza la información de un preventista"
+					},
+					"response": []
+				},
+				{
+					"name": "Get presales (PRESALES ROLE)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/presales/info",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"presales",
+								"info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send-Binding (PRESALES ROLE)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"nit\": \"4892192612\",\n   \"tempName\": \"tienda de la esquina\" \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/presales/send-binding",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"presales",
+								"send-binding"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order By Id (PRESALES ROLE)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/presales/get-order/{{orderId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"presales",
+								"get-order",
+								"{{orderId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Orders (PRESALES ROLE)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/presales/get-order",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"presales",
+								"get-order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Stores (PRESALES ROLE)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/presales/get-stores",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"presales",
+								"get-stores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Store By Id (PRESALES ROLE)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/presales/get-store/{{storeId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"presales",
+								"get-store",
+								"{{storeId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "04 - Deliveries (DISTRIBUTOR Role)",
+			"item": [
+				{
+					"name": "Create Delivery",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200 || pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.delivery && jsonData.delivery.id) {",
+									"        pm.collectionVariables.set('deliveryId', jsonData.delivery.id);",
+									"        console.log('✅ Delivery ID guardado:', jsonData.delivery.id);",
+									"    }",
+									"    if (jsonData.user) {",
+									"        console.log('📝 Credenciales del entregador:');",
+									"        console.log('   Username:', jsonData.user.username);",
+									"        console.log('   Password:', jsonData.user.password);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{distributorToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"camilo\",\n  \"password\": \"12345\",\n  \"email\": \"camilo@gmail.com\",\n  \"name\": \"Carlos Rodríguez\",\n  \"documentType\": \"CC\",\n  \"documentNumber\": \"9876543210\",\n  \"phoneNumber\": \"3204567890\",\n  \"licenseNumber\": \"464512345678\",\n  \"licenseType\": \"B1\",\n  \"vehicles\": null\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/deliveries",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"deliveries"
+							]
+						},
+						"description": "Crea un nuevo entregador. Tipos de licencia: A1, A2, A3, A4, B1, B2, B3, C1, C2, C3, C4, D1, D2, D3, D4"
+					},
+					"response": []
+				},
+				{
+					"name": "List All Deliveries",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{distributorToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/deliveries",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"deliveries"
+							]
+						},
+						"description": "Lista todos los entregadores"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Delivery by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{distributorToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/deliveries/{{deliveryId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"deliveries",
+								"{{deliveryId}}"
+							]
+						},
+						"description": "Obtiene la información de un entregador específico"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Delivery",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{distributorToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Carlos Rodríguez Actualizado\",\n  \"phoneNumber\": \"3209999999\",\n  \"licenseNumber\": \"999999994\",\n  \"licenseType\": \"C1\",\n  \"vehicles\": null\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/deliveries/{{deliveryId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"deliveries",
+								"{{deliveryId}}"
+							]
+						},
+						"description": "Actualiza la información de un entregador"
+					},
+					"response": []
+				},
+				{
+					"name": "Me (Delivery ROLE))",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/deliveries/me",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"deliveries",
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "05 - Stores (ADMIN/DISTRIBUTOR Role)",
+			"item": [
+				{
+					"name": "Create Store (ADMIN ROLE)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200 || pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.store && jsonData.store.id) {",
+									"        pm.collectionVariables.set('storeId', jsonData.store.id);",
+									"        console.log('✅ Store ID guardado:', jsonData.store.id);",
+									"    }",
+									"    if (jsonData.user) {",
+									"        console.log('📝 Credenciales de la tienda:');",
+									"        console.log('   Username:', jsonData.user.username);",
+									"        console.log('   Password:', jsonData.user.password);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"a7fcb689-4bd4-4129-972b-5de75fdfddf6\",\n  \"name\": \"Tienda La Esquina\",\n  \"nit\": \"800234567\",\n  \"phoneNumber\": \"3051112222\",\n  \"email\": \"contacto@laesquina.com\",\n  \"direction\": {\n    \"street\": \"Calle 80\",\n    \"number\": \"45-67\",\n    \"neighborhood\": \"El Prado\",\n    \"city\": \"Barranquilla\",\n    \"department\": \"Atlántico\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/store",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"store"
+							]
+						},
+						"description": "Auto-registro de tienda por el dueño (PÚBLICO - no requiere autenticación). Estado: SELF_REGISTERED. Si el NIT ya existe, se indicará usar el endpoint de Claim Store."
+					},
+					"response": []
+				},
+				{
+					"name": "Login as Store",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.token) {",
+									"        pm.collectionVariables.set('storeToken', jsonData.token);",
+									"        console.log('✅ Store token guardado:', jsonData.token);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"moises.schuppe\",\n  \"password\": \"password123\",\n  \"rememberMe\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Inicia sesión como tienda. Actualiza el username (formato: store_{NIT}) y password con las credenciales recibidas al registrarse o reclamar."
+					},
+					"response": []
+				},
+				{
+					"name": "List All Stores (ADMIN ROLE)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{distributorToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/store",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"store"
+							]
+						},
+						"description": "Lista todas las tiendas"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Store by ID (ADMIN ROLE)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{distributorToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/store/{{storeId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"store",
+								"{{storeId}}"
+							]
+						},
+						"description": "Obtiene la información de una tienda específica"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Store (ADMIN ROLE)",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{distributorToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Tienda La Esquina Actualizada\",\n  \"phoneNumber\": \"3059999999\",\n  \"direction\": {\n    \"street\": \"Calle 81\",\n    \"number\": \"46-68\",\n    \"neighborhood\": \"El Prado\",\n    \"city\": \"Barranquilla\",\n    \"department\": \"Atlántico\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/store/{{storeId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"store",
+								"{{storeId}}"
+							]
+						},
+						"description": "Actualiza la información de una tienda"
+					},
+					"response": []
+				},
+				{
+					"name": "Disable Store (ADMIN ROLE)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{distributorToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/stores/{{storeId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"stores",
+								"{{storeId}}"
+							]
+						},
+						"description": "Desactiva una tienda (soft delete)"
+					},
+					"response": []
+				},
+				{
+					"name": "Accept Binding (STORE ROLE)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/store/verify-binding?token=78b00517ee77b132748303f8340b6b1389df7bdddf9ad9b16b908eb7018fa6dd",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"store",
+								"verify-binding"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "78b00517ee77b132748303f8340b6b1389df7bdddf9ad9b16b908eb7018fa6dd"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Distributors (STORE ROLE)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/store/get-distributors",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"store",
+								"get-distributors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get my catalog By Distributor Id (STORE ROLE)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/store/{{distributorId}}/catalog/{{catalogId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"store",
+								"{{distributorId}}",
+								"catalog",
+								"{{catalogId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Catalogs By Distributor Id (STORE ROLE)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/store/{{distributorId}}/catalog",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"store",
+								"{{distributorId}}",
+								"catalog"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Me (STORE ROLE))",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/store/me",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"store",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order By Id (STORE ROLE)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/store/{{distributorId}}/order/{{orderId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"store",
+								"{{distributorId}}",
+								"order",
+								"{{orderId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Orders (STORE ROLE)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/store/{{distributorId}}/order",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"store",
+								"{{distributorId}}",
+								"order"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "06 - Products",
+			"item": [
+				{
+					"name": "Create Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200 || pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.product && jsonData.product.id) {",
+									"        pm.collectionVariables.set('productId', jsonData.product.id);",
+									"        console.log('✅ Product ID guardado:', jsonData.product.id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{distributorToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sku\": \"LAC-008\",\n    \"name\": \"Leche Entera Larga Vida\",\n    \"price\": 1.50,\n    \"unit\": \"LITER\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						},
+						"description": "Crea un nuevo producto. Unidades disponibles: UNIT, KILOGRAM, LITER, METER, PACK, BOX"
+					},
+					"response": []
+				},
+				{
+					"name": "List All Products",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{distributorToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						},
+						"description": "Lista todos los productos"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{distributorToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/products/{{productId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"{{productId}}"
+							]
+						},
+						"description": "Obtiene la información de un producto específico"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{distributorToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Coca Cola 2.5L\",\n  \"price\": 6000.00,\n  \"unit\": \"LITER\",\n  \"sku\": \"POLO-001\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products/{{productId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"{{productId}}"
+							]
+						},
+						"description": "Actualiza la información de un producto"
+					},
+					"response": []
+				},
+				{
+					"name": "Disable Product",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{distributorToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/products/{{productId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								"{{productId}}"
+							]
+						},
+						"description": "Desactiva un producto (soft delete)"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "07 - Catalogs (DISTRIBUTOR/PRESALES Role)",
+			"item": [
+				{
+					"name": "Get My Catalog (DISTRIBUTOR - PRESALES ROLE)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{distributorToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/catalogs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"catalogs"
+							]
+						},
+						"description": "Obtiene el catálogo completo de la distribuidora del usuario autenticado. Funciona con DISTRIBUTOR o PRESALES"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Category to Catalog (DISTRIBUTOR ROLE)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200 || pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.category && jsonData.category.id) {",
+									"        pm.collectionVariables.set('categoryId', jsonData.category.id);",
+									"        console.log('✅ Category ID guardado:', jsonData.category.id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{distributorToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"bebidas\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/catalogs/{{catalogId}}/categories",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"catalogs",
+								"{{catalogId}}",
+								"categories"
+							]
+						},
+						"description": "Agrega una categoría al catálogo de la distribuidora. Solo DISTRIBUTOR"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Product to Category (DISTRIBUTOR ROLE)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{distributorToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"productId\": \"{{productId}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/catalogs/{{catalogId}}/categories/{{categoryId}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"catalogs",
+								"{{catalogId}}",
+								"categories",
+								"{{categoryId}}",
+								"products"
+							]
+						},
+						"description": "Agrega un producto existente a una categoría. Solo DISTRIBUTOR"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Products by Category",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{distributorToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/catalogs/{{categoryId}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"catalogs",
+								"{{categoryId}}",
+								"products"
+							]
+						},
+						"description": "Obtiene todos los productos de una categoría específica. Funciona con DISTRIBUTOR o PRESALES"
+					},
+					"response": []
+				},
+				{
+					"name": "Create catalog (DISTRIBUTOR ROLE)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"bebidas\",\n    \"catalogCode\": \"NAAA-3231\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/catalogs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"catalogs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get catalog by Id (DISTRIBUTOR - PRESALES - STORES ROLE)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/catalogs/{{catalogId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"catalogs",
+								"{{catalogId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "08 - Orders (STORE/PRESALES Role)",
+			"item": [
+				{
+					"name": "Create Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200 || pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.order && jsonData.order.id) {",
+									"        pm.collectionVariables.set('orderId', jsonData.order.id);",
+									"        console.log('✅ Order ID guardado:', jsonData.order.id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{presalesToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"distributorId\": \"01faca6a-ad68-4872-bd68-e16910d16b50\",\n    \"storeId\": \"8de08cd6-0017-4f80-95e7-dbc48c33fa52\",\n    \"products\": [\n        {\n            \"productId\": \"f7195fda-8e2d-4678-8d0a-d78e548f3632\",\n            \"quantity\": 1\n        },\n        {\n            \"productId\": \"ef8d2f5b-d500-48b8-882d-7b2f7c696586\",\n            \"quantity\": 1\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order"
+							]
+						},
+						"description": "Crea un nuevo pedido. Requiere rol STORE o PRESALES. IMPORTANTE: distributor_id es OBLIGATORIO, presales_id es OPCIONAL (null si la tienda pide directamente sin preventista). Actualiza store_id, distributor_id y presales_id con valores reales"
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{presalesToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/orders/{{orderId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"orders",
+								"{{orderId}}"
+							]
+						},
+						"description": "Cancela un pedido existente"
+					},
+					"response": []
+				},
+				{
+					"name": "Change Status Order (DISTRIBUTOR ROLE)",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"orderId\": \"{{orderId}}\",\n    \"orderStatus\": \"ACCEPT\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/order/change-status",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"order",
+								"change-status"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "09-Warehouses (DISTRIBUTOR ROLE)",
+			"item": [
+				{
+					"name": "Register Warehouse",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"bodega ternera\",\n    \"direction\": {\n    \"street\": \"Calle 70\",\n    \"number\": \"23-76\",\n    \"neighborhood\": \"oeste\",\n    \"city\": \"Cartagena\",\n    \"department\": \"Bolivar\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/warehouse",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"warehouse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Warehouse By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/warehouse/{{warehouseId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"warehouse",
+								"{{warehouseId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List All warehouses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/warehouse",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"warehouse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Warehouse",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"bodega ternera\",\n    \"direction\": {\n    \"street\": \"Calle 40\",\n    \"number\": \"23-56\",\n    \"neighborhood\": \"Este\",\n    \"city\": \"Cartagena\",\n    \"department\": \"Bolivar\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/warehouse/{{warehouseId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"warehouse",
+								"{{warehouseId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Disabled warehouse",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/warehouse/{{warehouseId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"warehouse",
+								"{{warehouseId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "10-Inventory (DISTRIBUTOR ROLE)",
+			"item": [
+				{
+					"name": "Create Inventory",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productId\": \"f7195fda-8e2d-4678-8d0a-d78e548f3632\",\n    \"warehouseId\": \"a105699c-be4d-4d34-816e-f20e12ddb553\",\n    \"quantity\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/inventory",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"inventory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Inventory",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"quantity\": 50\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/inventory/{{inventoryId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"inventory",
+								"{{inventoryId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Inventory By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/inventory/{{inventoryId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"inventory",
+								"{{inventoryId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Inventories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/inventory",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"inventory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Inventory By Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/inventory/{{inventoryId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"inventory",
+								"{{inventoryId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "11 - AssestsResources (DISTRIBUTOR ROLE)",
+			"item": [
+				{
+					"name": "Submit Asset",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"productId\": \"f7195fda-8e2d-4678-8d0a-d78e548f3632\",\n  \"cloudinaryPublicId\": \"7f3b9a21-1b5e-4d9e-8f2a-3c1b0a9f8e7d\",\n  \"url\": \"https://res.cloudinary.com/tu-usuario/image/upload/v12345678/productos/perfume-invictus.jpg\",\n  \"name\": \"Perfume Invictus Platinum 100ml\",\n  \"isMain\": true,\n  \"format\": \"jpg\",\n  \"width\": 1200.0,\n  \"height\": 800.0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/assets",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"assets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Asset By Id",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"url\": \"https://res.cloudinary.com/tu-usuario/image/upload/v98765432/productos/perfume-invictus-platinum-v2.jpg\",\n  \"name\": \"Perfume Invictus Platinum - Vista Lateral Actualizada\",\n  \"isMain\": false,\n  \"format\": \"webp\",\n  \"width\": 1080.0,\n  \"height\": 1080.0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/assets/{{assetId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"assets",
+								"{{assetId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Asset By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/assets/{{assetId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"assets",
+								"{{assetId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Assets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/assets",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"assets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete asset By Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/assets/{{assetId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"assets",
+								"{{assetId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "seeder",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "records",
+						"value": "1000",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/seeder/generate",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"seeder",
+						"generate"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080/api"
+		},
+		{
+			"key": "adminToken",
+			"value": ""
+		},
+		{
+			"key": "distributorToken",
+			"value": ""
+		},
+		{
+			"key": "distributorId",
+			"value": ""
+		},
+		{
+			"key": "presalesId",
+			"value": ""
+		},
+		{
+			"key": "deliveryId",
+			"value": ""
+		},
+		{
+			"key": "storeId",
+			"value": ""
+		},
+		{
+			"key": "productId",
+			"value": ""
+		},
+		{
+			"key": "orderId",
+			"value": ""
+		},
+		{
+			"key": "categoryId",
+			"value": ""
+		},
+		{
+			"key": "storeToken",
+			"value": ""
+		},
+		{
+			"key": "presalesToken",
+			"value": ""
+		},
+		{
+			"key": "NIT",
+			"value": "",
+			"type": "default"
+		}
+	]
+}

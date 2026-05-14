@@ -1,0 +1,41 @@
+name: 01-webflux-compose
+
+services:
+  mongo: 
+    image: mongo:noble
+    container_name: districore-database-mongo
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DB}
+    volumes:
+      - mongo_data:/data/db
+    networks: 
+      - backend-net
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ### backend de spring
+  backend:
+    build: .
+    container_name: backend-districore
+    ports:
+      - 8080:8080
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - backend-net
+    env_file:
+      - .env
+
+volumes:
+  mongo_data:
+
+networks:
+  backend-net:

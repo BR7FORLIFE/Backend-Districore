@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: Proyecto de Aula
+  profiles:
+    active:
+      - ${PROFILES}
+  
+  devtools: 
+    restart:
+      enabled: false
+      
+server:
+  servlet:
+    context-path: /api
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    resolve-extensions: true 
+  override-with-generic-response: true
+  swagger-ui:
+    path: /swagger-ui.html
+    url: /api/v3/api-docs
+    config-url: /api/v3/api-docs/swagger-config
+  use-management-port: false
+
+jwt:
+  secret: a-very-long-and-secure-secret-key-for-jwt-that-is-at-least-256-bits-long
+  expiration-ms: 3600000 # 1 hour
+
+government:
+  iva: 0.19
+
+order:
+  expiration-order: 259200 # 3 dias en segundos
+
+# path de swagger -> http://localhost:8080/api/swagger-ui/index.html

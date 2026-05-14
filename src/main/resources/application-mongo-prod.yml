@@ -1,0 +1,13 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@districore.i1vkw5a.mongodb.net/${MONGO_DB}?retryWrites=true&w=majority
+      uuid-representation: standard
+
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+
+cookie:
+  secure: true
